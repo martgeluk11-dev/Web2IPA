@@ -2,19 +2,22 @@
 
 Turn a website into a simple fullscreen iOS app wrapper and build an **unsigned IPA** with GitHub Actions.
 
-## Build your IPA
+## Use the Web2IPA website
 
-1. Open the **Actions** tab in this repository.
-2. Select **Build Web2IPA**.
-3. Press **Run workflow**.
-4. Enter:
-   - **Website URL:** the full HTTPS address, such as `https://example.com`
-   - **App name:** the name shown below the icon (up to 30 characters)
-   - **Bundle ID:** a unique identifier, such as `com.yourname.mywebsite`
-5. Start the workflow and wait for it to finish.
-6. Open the completed workflow run, scroll to **Artifacts**, and download **Web2IPA-unsigned-IPA**.
+Open **https://martgeluk11-dev.github.io/Web2IPA/** after the Pages deployment completes.
 
-The artifact contains `Web2IPA-unsigned.ipa` and its SHA-256 checksum file.
+1. Enter the full HTTPS website URL.
+2. Enter the app name (up to 30 characters).
+3. Enter a unique Bundle ID, such as `com.yourname.mywebsite`.
+4. Create a fine-grained GitHub token for **only this repository** with **Actions: Read and write** permission.
+5. Paste the token into the website and press **Build my IPA**.
+6. Follow the GitHub Actions run link. When it succeeds, download the `Web2IPA-unsigned-IPA` artifact.
+
+The website sends the token directly from your browser to GitHub's API. It does not save the token in local storage or send it to a Web2IPA backend. The page clears the token field after the request. Never share your token or paste it into any other website.
+
+## First-time setup
+
+The `Deploy Web2IPA website` workflow deploys the static website to GitHub Pages. It runs automatically when `index.html` or the deploy workflow changes. If Pages has not been enabled for the repository, the workflow attempts to enable it.
 
 ## Important: unsigned means not ready to install
 
