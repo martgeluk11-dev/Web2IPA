@@ -39,25 +39,38 @@ struct WebContainerView: View {
                 }
                 .overlay {
                     if hasError {
-                        ContentUnavailableView {
-                            Label("Couldn't load this page", systemImage: "wifi.exclamationmark")
-                        } description: {
+                        VStack(spacing: 14) {
+                            Image(systemName: "wifi.exclamationmark")
+                                .font(.system(size: 34))
+                                .foregroundStyle(.secondary)
+                            Text("Couldn't load this page")
+                                .font(.headline)
                             Text("Check your internet connection and try again.")
-                        } actions: {
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
                             Button("Try again") {
                                 hasError = false
                                 reloadToken = UUID()
                             }
                             .buttonStyle(.borderedProminent)
                         }
+                        .padding(28)
+                        .multilineTextAlignment(.center)
                     }
                 }
             } else {
-                ContentUnavailableView(
-                    "Website URL missing",
-                    systemImage: "link",
-                    description: Text("Rebuild this app with a valid HTTPS website URL.")
-                )
+                VStack(spacing: 12) {
+                    Image(systemName: "link")
+                        .font(.system(size: 34))
+                        .foregroundStyle(.secondary)
+                    Text("Website URL missing")
+                        .font(.headline)
+                    Text("Rebuild this app with a valid HTTPS website URL.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(28)
+                .multilineTextAlignment(.center)
             }
         }
         .background(Color.white)
