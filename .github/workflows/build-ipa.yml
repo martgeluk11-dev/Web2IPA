@@ -1,0 +1,101 @@
+name: Build Web2IPA
+
+on:
+  workflow_dispatch:
+    inputs:
+      website_url:
+        description: "Website URL (HTTPS only)"
+        required: true
+        type: string
+      app_name:
+        description: "Name shown under the app icon"
+        required: true
+        default: "My Web App"
+        type: string
+      bundle_id:
+        description: "Unique bundle identifier"
+        required: true
+        default: "com.example.mywebapp"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build unsigned iOS IPA
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - name: Check inputs
+        env:
+          WEBSITE_URL: ${{ inputs.website_url }}
+          APP_NAME: ${{ inputs.app_name }}
+          BUNDLE_ID: ${{ inputs.bundle_id }}
+        run: |
+          python3 - <<'PY'
+          import os, re
+          from urllib.parse import urlparse
+
+          url = urlparse(os.environ["WEBSITE_URL"].strip())
+          if url.scheme != "https" or not url.hostname:
+              raise SystemExit("Enter a valid HTTPS URL, for example https://example.com")
+          name = os.environ["APP_NAME"].strip()
+          if not name or len(name) > 30:
+              raise SystemExit("App name must contain 1–30 characters.")
+          bundle = os.environ["BUNDLE_ID"].strip()
+          if len(bundle) > 255 or not re.fullmatch(r"[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+", bundle):
+              raise SystemExit("Bundle ID must look like com.example.myapp.")
+          PY
+
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build app (unsigned)
+        env:
+          WEBSITE_URL: ${{ inputs.website_url }}
+          APP_NAME: ${{ inputs.app_name }}
+          BUNDLE_ID: ${{ inputs.bundle_id }}
+        run: |
+          xcodebuild \
+            -project Web2IPA.xcodeproj \
+            -scheme Web2IPA \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            PRODUCT_BUNDLE_IDENTIFIER="$BUNDLE_ID" \
+            INFOPLIST_KEY_CFBundleDisplayName="$APP_NAME" \
+            INFOPLIST_KEY_WEB2IPA_START_URL="$WEBSITE_URL" \
+            build
+
+      - name: Package IPA
+        run: |
+          APP_PATH="build/Build/Products/Release-iphoneos/Web2IPA.app"
+          test -d "$APP_PATH"
+          mkdir -p package/Payload
+          cp -R "$APP_PATH" package/Payload/
+          cd package
+          zip -qry ../Web2IPA-unsigned.ipa Payload
+          cd ..
+          shasum -a 256 Web2IPA-unsigned.ipa | tee Web2IPA-unsigned.ipa.sha256
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Web2IPA-unsigned-IPA
+          path: |
+            Web2IPA-unsigned.ipa
+            Web2IPA-unsigned.ipa.sha256
+          if-no-files-found: error
+          retention-days: 7
