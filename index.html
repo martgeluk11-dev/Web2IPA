@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080b12"><title>Web2IPA — Website to iOS app</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#080b12;color:#f4f6fb}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -20%,#16305b 0,transparent 55%),#080b12;display:grid;place-items:center;padding:28px 16px}
+main{width:min(100%,590px)}.brand{display:flex;align-items:center;gap:12px;margin-bottom:42px;font-weight:750;letter-spacing:-.04em;font-size:20px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#8bb9ff,#3478e5);display:grid;place-items:center;color:#071326;font-weight:900;font-size:19px;box-shadow:0 8px 30px #3478e544}
+.eyebrow{color:#82adf7;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}h1{font-size:clamp(38px,8vw,58px);line-height:.98;letter-spacing:-.065em;margin:12px 0 14px}h1 span{color:#82adf7}.sub{color:#9ca8bb;line-height:1.6;margin:0 0 30px;max-width:490px}
+.panel{background:#111722;border:1px solid #263246;border-radius:18px;padding:24px;box-shadow:0 22px 70px #0006}.field{margin-bottom:18px}label{display:block;font-size:12px;font-weight:700;color:#c9d2e2;margin-bottom:8px}input{width:100%;height:48px;border:1px solid #344158;background:#0a101a;color:#f5f7fb;border-radius:9px;padding:0 13px;font:inherit;outline:none}input:focus{border-color:#6b9ff5;box-shadow:0 0 0 3px #5794f522}input::placeholder{color:#66748b}.hint{font-size:11px;color:#748198;margin-top:7px;line-height:1.45}
+button{width:100%;height:50px;border:0;border-radius:10px;background:#75a8ff;color:#081326;font:750 14px inherit;font-size:14px;font-weight:800;cursor:pointer;margin-top:4px}button:disabled{opacity:.55;cursor:wait}
+.status{display:none;margin-top:18px;padding:14px;border:1px solid #33445e;border-radius:10px;background:#0b1320;color:#c9d7ed;font-size:13px;line-height:1.5;overflow-wrap:anywhere}.status.show{display:block}.status a{color:#91baff;font-weight:700}.foot{margin:18px 4px;color:#738096;font-size:11px;line-height:1.6}.foot strong{color:#aebbd0}.smalllink{color:#92b8f7;text-decoration:none}.tokenhelp{margin-top:18px;border-top:1px solid #273246;padding-top:16px;color:#8997ad;font-size:12px;line-height:1.55}.tokenhelp summary{cursor:pointer;color:#c3cee0;font-weight:700}.tokenhelp p{margin:10px 0 0}.tokenhelp code{color:#b8d1ff}
+</style>
+</head>
+<body><main>
+<div class="brand"><div class="logo">W</div> Web2IPA</div>
+<div class="eyebrow">Your website, packaged for iOS</div>
+<h1>Turn a website<br>into an <span>iPhone app.</span></h1>
+<p class="sub">Enter your website and app details. Web2IPA builds an iOS app wrapper and gives you an IPA build to download.</p>
+<section class="panel">
+<form id="buildForm">
+<div class="field"><label for="url">WEBSITE URL</label><input id="url" type="url" placeholder="https://example.com" required autocomplete="url"></div>
+<div class="field"><label for="app">APP NAME</label><input id="app" maxlength="30" placeholder="My Website" required></div>
+<div class="field"><label for="bundle">BUNDLE IDENTIFIER</label><input id="bundle" value="com.waffol.mywebsite" required pattern="[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+" title="Use a reverse-domain identifier, e.g. com.example.myapp"><div class="hint">Must be unique, e.g. com.yourname.mywebsite</div></div>
+<div class="field"><label for="token">GITHUB ACCESS TOKEN</label><input id="token" type="password" placeholder="github_pat_…" required autocomplete="off"><div class="hint">Used only in this browser session to start and check your build. It is not saved or sent to Web2IPA servers.</div></div>
+<button id="submit" type="submit">Build my IPA <span aria-hidden="true">↗</span></button>
+</form>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+<details class="tokenhelp"><summary>How do I get a GitHub token?</summary><p>Create a <a class="smalllink" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noreferrer">fine-grained personal access token</a>, select only the <strong>martgeluk11-dev/Web2IPA</strong> repository, and grant <strong>Actions: Read and write</strong> permission. Set an expiry, create it, then paste it above. Never share your token with anyone.</p></details>
+</section>
+<p class="foot"><strong>Important:</strong> the generated IPA is unsigned. It cannot be installed normally until it is signed with a valid Apple signing identity. Web2IPA wraps your website; it does not convert it into native Swift code.</p>
+</main>
+<script>
+const owner="martgeluk11-dev", repo="Web2IPA", workflow="build-ipa.yml";
+const $=id=>document.getElementById(id), form=$("buildForm"), statusBox=$("status"), submit=$("submit");
+function status(html){statusBox.innerHTML=html;statusBox.classList.add("show")}
+const headers=t=>({"Accept":"application/vnd.github+json","Authorization":"Bearer "+t,"X-GitHub-Api-Version":"2022-11-28"});
+form.addEventListener("submit",async e=>{
+ e.preventDefault();
+ const url=$("url").value.trim(), app=$("app").value.trim(), bundle=$("bundle").value.trim(), token=$("token").value.trim();
+ if(!/^https:\/\//i.test(url)){status("Please enter a valid HTTPS website URL.");return}
+ if(!app||app.length>30){status("App name must be between 1 and 30 characters.");return}
+ if(!/^[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$/.test(bundle)){status("Please enter a valid bundle identifier, such as com.example.myapp.");return}
+ submit.disabled=true;submit.textContent="Starting build…";status("Connecting to GitHub and starting your iOS build…");
+ try{
+  const api="https://api.github.com/repos/"+owner+"/"+repo;
+  const response=await fetch(api+"/actions/workflows/"+workflow+"/dispatches",{method:"POST",headers:{...headers(token),"Content-Type":"application/json"},body:JSON.stringify({ref:"main",inputs:{website_url:url,app_name:app,bundle_id:bundle}})});
+  if(response.status===204){
+    status("Build started! Waiting for GitHub Actions to create the run…");
+    await new Promise(r=>setTimeout(r,2500));
+    const runs=await fetch(api+"/actions/workflows/"+workflow+"/runs?per_page=1",{headers:headers(token)});
+    if(!runs.ok)throw new Error("Build was started, but GitHub could not return its status. Open <a href='https://github.com/"+owner+"/"+repo+"/actions' target='_blank' rel='noreferrer'>GitHub Actions</a> to follow it.");
+    const data=await runs.json(), run=data.workflow_runs&&data.workflow_runs[0];
+    if(run)status('Build started successfully.<br><br><a href="'+run.html_url+'" target="_blank" rel="noreferrer">Open build progress on GitHub ↗</a><br><span class="hint">When it finishes, open the run and download the Web2IPA-unsigned-IPA artifact.</span>');
+    else status('Build request sent. <a href="https://github.com/'+owner+'/'+repo+'/actions" target="_blank" rel="noreferrer">Open GitHub Actions ↗</a>');
+  }else{
+    const data=await response.json().catch(()=>({}));
+    if(response.status===401||response.status===403)throw new Error("GitHub rejected this token. Check that it has Actions: Read and write permission and access to the Web2IPA repository.");
+    if(response.status===404)throw new Error("Workflow not found. Check that the repository workflow is enabled on the main branch.");
+    throw new Error(data.message||("GitHub returned HTTP "+response.status));
+  }
+ }catch(err){status("Could not start the build: "+err.message)}
+ finally{submit.disabled=false;submit.innerHTML='Build my IPA <span aria-hidden="true">↗</span>';$("token").value=""}
+});
+</script></body></html>
