@@ -13,7 +13,8 @@ Open **https://martgeluk11-dev.github.io/Web2IPA/** after the Pages deployment c
 5. Paste the token into the website and press **Build my IPA**.
 6. Follow the GitHub Actions run link. When it succeeds, download the `Web2IPA-unsigned-IPA` artifact.
 
-The website sends the token directly from your browser to GitHub's API. It does not save the token in local storage or send it to a Web2IPA backend. The page clears the token field after the request. Never share your token or paste it into any other website.
+The website is the complete front end: submit the app details, watch the GitHub Actions build progress, and download the generated IPA directly from the page. The page polls the build status and retrieves the IPA artifact after a successful build. The GitHub token is held only in browser memory for that session and cleared when the attempt ends.
+
 
 ## First-time setup
 
