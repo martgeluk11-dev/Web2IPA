@@ -1,122 +1,26 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080b12"><title>Web2IPA — Website to iOS app</title>
-<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080b12"><title>Web2IPA — Website to iOS app</title>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script><script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
-:root{color-scheme:dark;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#080b12;color:#f4f6fb}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -20%,#16305b 0,transparent 55%),#080b12;display:grid;place-items:center;padding:28px 16px}
-main{width:min(100%,590px)}.brand{display:flex;align-items:center;gap:12px;margin-bottom:42px;font-weight:750;letter-spacing:-.04em;font-size:20px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#8bb9ff,#3478e5);display:grid;place-items:center;color:#071326;font-weight:900;font-size:19px;box-shadow:0 8px 30px #3478e544}
-.eyebrow{color:#82adf7;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}h1{font-size:clamp(38px,8vw,58px);line-height:.98;letter-spacing:-.065em;margin:12px 0 14px}h1 span{color:#82adf7}.sub{color:#9ca8bb;line-height:1.6;margin:0 0 30px;max-width:490px}
-.panel{background:#111722;border:1px solid #263246;border-radius:18px;padding:24px;box-shadow:0 22px 70px #0006}.field{margin-bottom:18px}label{display:block;font-size:12px;font-weight:700;color:#c9d2e2;margin-bottom:8px}input{width:100%;height:48px;border:1px solid #344158;background:#0a101a;color:#f5f7fb;border-radius:9px;padding:0 13px;font:inherit;outline:none}input:focus{border-color:#6b9ff5;box-shadow:0 0 0 3px #5794f522}input::placeholder{color:#66748b}.hint{font-size:11px;color:#748198;margin-top:7px;line-height:1.45}
-button,.download{width:100%;min-height:50px;border:0;border-radius:10px;background:#75a8ff;color:#081326;font:inherit;font-size:14px;font-weight:800;cursor:pointer;margin-top:4px;display:flex;align-items:center;justify-content:center;text-decoration:none}button:disabled{opacity:.55;cursor:wait}
-.status{display:none;margin-top:18px;padding:16px;border:1px solid #33445e;border-radius:12px;background:#0b1320;color:#c9d7ed;font-size:13px;line-height:1.5;overflow-wrap:anywhere}.status.show{display:block}.status a{color:#91baff;font-weight:700}.foot{margin:18px 4px;color:#738096;font-size:11px;line-height:1.6}.foot strong{color:#aebbd0}.smalllink{color:#92b8f7;text-decoration:none}.tokenhelp{margin-top:18px;border-top:1px solid #273246;padding-top:16px;color:#8997ad;font-size:12px;line-height:1.55}.tokenhelp summary{cursor:pointer;color:#c3cee0;font-weight:700}.tokenhelp p{margin:10px 0 0}
-.progressWrap{margin-top:16px}.progressMeta{display:flex;justify-content:space-between;gap:12px;color:#cbd8eb;font-size:12px;margin-bottom:8px}.track{height:8px;border-radius:99px;background:#202c3e;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#5794f5,#9bc2ff);border-radius:99px;transition:width .35s ease}.steps{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:8px}.steps li{display:flex;gap:9px;color:#8493aa;font-size:12px}.steps li.active{color:#dce8fb}.steps li.done{color:#83b5ff}.dot{width:7px;height:7px;border-radius:50%;background:#44536b;margin-top:5px;flex:none}.active .dot{background:#82adf7;box-shadow:0 0 0 4px #82adf722}.done .dot{background:#82adf7}.download{margin-top:14px;background:#8db9ff}.error{color:#ffb2b2}.muted{color:#8795aa}
-</style>
-</head>
-<body><main>
-<div class="brand"><div class="logo">W</div> Web2IPA</div>
-<div class="eyebrow">Your website, packaged for iOS</div>
-<h1>Turn a website<br>into an <span>iPhone app.</span></h1>
-<p class="sub">Enter your website and app details. Follow the build live and download your IPA without leaving this page.</p>
-<section class="panel">
-<form id="buildForm">
-<div class="field"><label for="url">WEBSITE URL</label><input id="url" type="url" placeholder="https://example.com" required autocomplete="url"></div>
+:root{color-scheme:dark;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#080b12;color:#f4f6fb}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -20%,#16305b 0,transparent 55%),#080b12;display:grid;place-items:center;padding:28px 16px}main{width:min(100%,590px)}.brand{display:flex;align-items:center;gap:12px;margin-bottom:42px;font-weight:750;letter-spacing:-.04em;font-size:20px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#8bb9ff,#3478e5);display:grid;place-items:center;color:#071326;font-weight:900;font-size:19px}.eyebrow{color:#82adf7;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}h1{font-size:clamp(38px,8vw,58px);line-height:.98;letter-spacing:-.065em;margin:12px 0 14px}h1 span{color:#82adf7}.sub{color:#aab5c7;line-height:1.6;margin:0 0 30px;max-width:490px}.panel{background:#111722;border:1px solid #263246;border-radius:18px;padding:24px;box-shadow:0 22px 70px #0006}.field{margin-bottom:18px}label{display:block;font-size:12px;font-weight:700;color:#d4ddec;margin-bottom:8px}input{width:100%;height:48px;border:1px solid #344158;background:#0a101a;color:#f5f7fb;border-radius:9px;padding:0 13px;font:inherit;outline:none}input:focus{border-color:#6b9ff5;box-shadow:0 0 0 3px #5794f522}input::placeholder{color:#8794a8}.hint{font-size:11px;color:#9ba9bd;margin-top:7px;line-height:1.45}button,.download{width:100%;min-height:50px;border:0;border-radius:10px;background:#75a8ff;color:#081326;font:inherit;font-size:14px;font-weight:800;cursor:pointer;margin-top:4px;display:flex;align-items:center;justify-content:center;text-decoration:none}button:disabled{opacity:.55;cursor:wait}.status{display:none;margin-top:18px;padding:16px;border:1px solid #33445e;border-radius:12px;background:#0b1320;color:#d4e0f1;font-size:13px;line-height:1.5;overflow-wrap:anywhere}.status.show{display:block}.status a{color:#91baff;font-weight:700}.foot{margin:18px 4px;color:#9aa8bd;font-size:11px;line-height:1.6}.foot strong{color:#d0dced}.progressWrap{margin-top:16px}.progressMeta{display:flex;justify-content:space-between;gap:12px;color:#cbd8eb;font-size:12px;margin-bottom:8px}.track{height:8px;border-radius:99px;background:#202c3e;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#5794f5,#9bc2ff);border-radius:99px;transition:width .35s ease}.steps{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:8px}.steps li{display:flex;gap:9px;color:#a0aec2;font-size:12px}.steps li.active{color:#e3edfc}.steps li.done{color:#83b5ff}.dot{width:7px;height:7px;border-radius:50%;background:#44536b;margin-top:5px;flex:none}.active .dot,.done .dot{background:#82adf7}.download{margin-top:14px;background:#8db9ff}.error{color:#ffb2b2}.cf-turnstile{margin:0 0 16px}
+</style></head>
+<body><main><div class="brand"><div class="logo">W</div> Web2IPA</div><div class="eyebrow">Your website, packaged for iOS</div><h1>Turn a website<br>into an <span>iPhone app.</span></h1><p class="sub">Enter your website and app details. Follow the build live and download your IPA without leaving this page.</p>
+<section class="panel"><form id="buildForm">
+<div class="field"><label for="url">WEBSITE URL</label><input id="url" type="url" placeholder="https://example.com" required></div>
 <div class="field"><label for="app">APP NAME</label><input id="app" maxlength="30" placeholder="My Website" required></div>
-<div class="field"><label for="bundle">BUNDLE IDENTIFIER</label><input id="bundle" value="com.waffol.mywebsite" required pattern="[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+" title="Use a reverse-domain identifier, e.g. com.example.myapp"><div class="hint">Must be unique, e.g. com.yourname.mywebsite</div></div>
-<div class="field"><label for="token">GITHUB ACCESS TOKEN</label><input id="token" type="password" placeholder="github_pat_…" required autocomplete="off"><div class="hint">Used in this browser session to start the build and retrieve the IPA. Never paste it into chats or share it.</div></div>
-<button id="submit" type="submit">Build my IPA ↗</button>
-</form>
-<div id="status" class="status" role="status" aria-live="polite">
- <div id="statusTitle">Preparing build…</div>
- <div class="progressWrap"><div class="progressMeta"><span id="phase">Waiting for GitHub runner</span><strong id="percent">0%</strong></div><div class="track"><div class="fill" id="fill"></div></div></div>
- <ul class="steps" id="steps"></ul>
- <div id="result"></div>
-</div>
-<details class="tokenhelp"><summary>How do I get a GitHub token?</summary><p>Create a <a class="smalllink" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noreferrer">fine-grained personal access token</a>, select only the <strong>martgeluk11-dev/Web2IPA</strong> repository, and grant <strong>Actions: Read and write</strong> permission. Set an expiry, create it, then paste it above. The token stays in this page's memory and is cleared when the build ends.</p></details>
-</section>
-<p class="foot"><strong>Important:</strong> the generated IPA is unsigned. It cannot be installed normally until signed with a valid Apple signing identity. Web2IPA wraps your website; it does not convert it into native Swift code.</p>
-</main>
+<div class="field"><label for="bundle">BUNDLE IDENTIFIER</label><input id="bundle" value="com.waffol.mywebsite" required pattern="[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+" title="e.g. com.example.myapp"><div class="hint">Must be unique, e.g. com.yourname.mywebsite</div></div>
+<div class="cf-turnstile" data-sitekey="TURNSTILE_SITE_KEY" data-theme="dark"></div><button id="submit" type="submit">Build my IPA ↗</button></form>
+<div id="status" class="status" role="status" aria-live="polite"><div id="statusTitle">Preparing build…</div><div class="progressWrap"><div class="progressMeta"><span id="phase">Waiting for GitHub runner</span><strong id="percent">0%</strong></div><div class="track"><div class="fill" id="fill"></div></div></div><ul class="steps" id="steps"></ul><div id="result"></div></div></section>
+<p class="foot"><strong>Important:</strong> the generated IPA is unsigned. It cannot be installed normally until signed with a valid Apple signing identity. Web2IPA wraps your website; it does not convert it into native Swift code.</p></main>
 <script>
-const owner="martgeluk11-dev",repo="Web2IPA",workflow="build-ipa.yml",api="https://api.github.com/repos/"+owner+"/"+repo;
-const $=id=>document.getElementById(id),form=$("buildForm"),submit=$("submit");
-let stopped=false;
-const headers=t=>({"Accept":"application/vnd.github+json","Authorization":"Bearer "+t,"X-GitHub-Api-Version":"2022-11-28"});
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-function show(){ $("status").classList.add("show") }
-function setProgress(p,label){p=Math.max(0,Math.min(100,p));$("fill").style.width=p+"%";$("percent").textContent=Math.round(p)+"%";if(label)$("phase").textContent=label}
-function safeText(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function renderSteps(steps){
- $("steps").innerHTML=steps.map(s=>'<li class="'+(s.conclusion==="success"?"done":s.status==="in_progress"?"active":"")+'"><i class="dot"></i><span>'+safeText(s.name)+(s.conclusion==="success"?" · done":s.status==="in_progress"?" · running":s.conclusion==="failure"?" · failed":"")+'</span></li>').join("");
-}
-async function github(path,token){const r=await fetch(api+path,{headers:headers(token)});if(!r.ok){let d={};try{d=await r.json()}catch{}throw new Error(d.message||("GitHub API error "+r.status))}return r.json()}
-async function downloadIPA(runId,token){
- $("statusTitle").textContent="Build complete — preparing your IPA…";setProgress(96,"Downloading build artifact");$("result").innerHTML="";
- const data=await github("/actions/runs/"+runId+"/artifacts",token);
- const artifact=(data.artifacts||[]).find(a=>a.name==="Web2IPA-unsigned-IPA"&&!a.expired);
- if(!artifact)throw new Error("Build succeeded, but the IPA artifact was not found.");
- const response=await fetch(api+"/actions/artifacts/"+artifact.id+"/zip",{headers:headers(token)});
- if(!response.ok)throw new Error("Could not download the IPA artifact (HTTP "+response.status+").");
- const zipBlob=await response.blob();
- setProgress(98,"Extracting IPA from artifact");
- const archive=await JSZip.loadAsync(zipBlob);
- const entry=Object.values(archive.files).find(f=>!f.dir&&f.name.toLowerCase().endsWith(".ipa"));
- if(!entry)throw new Error("The artifact ZIP did not contain an IPA file.");
- const ipaBlob=await entry.async("blob");
- const url=URL.createObjectURL(ipaBlob),a=document.createElement("a");
- a.href=url;a.download="Web2IPA.ipa";a.className="download";a.textContent="Download your IPA ↓";
- $("result").appendChild(a);
- const checksum=Object.values(archive.files).find(f=>!f.dir&&f.name.endsWith(".sha256"));
- if(checksum){const text=await checksum.async("string");const p=document.createElement("p");p.className="hint";p.textContent="SHA-256: "+text.trim().split(/\s+/)[0];$("result").appendChild(p)}
- $("statusTitle").textContent="Your IPA is ready";setProgress(100,"Finished");$("phase").textContent="Ready to download";
-}
-async function monitor(runId,token){
- let lastJobState="";
- for(let i=0;i<180;i++){
-  const run=await github("/actions/runs/"+runId,token);
-  const jobData=await github("/actions/runs/"+runId+"/jobs",token);
-  const job=(jobData.jobs||[])[0],steps=job?.steps||[];
-  renderSteps(steps);
-  const done=steps.filter(s=>s.status==="completed").length,total=Math.max(steps.length,1);
-  const running=steps.find(s=>s.status==="in_progress");
-  const pct=run.status==="completed"?92:Math.min(90,8+(done/total)*82+(running?3:0));
-  setProgress(pct,running?running.name:run.status==="queued"?"Waiting for a macOS runner":run.status==="in_progress"?"Building iOS app":"Finishing build");
-  if(run.status==="completed"){
-   if(run.conclusion!=="success"){
-    $("statusTitle").innerHTML='<span class="error">Build failed</span>';
-    $("result").innerHTML='The build did not complete. <a href="'+run.html_url+'" target="_blank" rel="noreferrer">Open build logs ↗</a>';
-    throw Object.assign(new Error("The iOS build failed. Check the failed step in the build logs."),{handled:true});
-   }
-   await downloadIPA(runId,token);return;
-  }
-  await sleep(4000);
- }
- throw new Error("The build is taking longer than expected. Refresh the page later and check GitHub Actions.");
-}
-form.addEventListener("submit",async e=>{
- e.preventDefault();
- const url=$("url").value.trim(),app=$("app").value.trim(),bundle=$("bundle").value.trim(),token=$("token").value.trim();
- if(!/^https:\/\//i.test(url)){alert("Please enter a valid HTTPS URL.");return}
- if(!app||app.length>30){alert("App name must be between 1 and 30 characters.");return}
- if(!/^[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$/.test(bundle)){alert("Please enter a valid bundle identifier.");return}
- if(!token){alert("Enter your GitHub access token.");return}
- submit.disabled=true;submit.textContent="Building…";show();$("statusTitle").textContent="Starting your build…";$("result").textContent="";$("steps").innerHTML="";setProgress(2,"Sending build request");
- const startedAt=new Date(Date.now()-5000).toISOString();
- try{
-  const r=await fetch(api+"/actions/workflows/"+workflow+"/dispatches",{method:"POST",headers:{...headers(token),"Content-Type":"application/json"},body:JSON.stringify({ref:"main",inputs:{website_url:url,app_name:app,bundle_id:bundle}})});
-  if(r.status!==204){let d={};try{d=await r.json()}catch{}throw new Error(d.message||("GitHub returned HTTP "+r.status+". Check token permissions."))}
-  $("statusTitle").textContent="Build queued";setProgress(4,"Waiting for build to appear");
-  let run=null;
-  for(let i=0;i<20&&!run;i++){
-   const data=await github("/actions/workflows/"+workflow+"/runs?per_page=10",token);
-   run=(data.workflow_runs||[]).find(x=>x.event==="workflow_dispatch"&&x.created_at>=startedAt&&x.head_branch==="main");
-   if(!run)await sleep(1500);
-  }
-  if(!run)throw new Error("GitHub accepted the build but did not return its run yet. Refresh and check the Actions tab.");
-  await monitor(run.id,token);
- }catch(err){
-  if(!err.handled){$("statusTitle").innerHTML='<span class="error">Something went wrong</span>';$("result").textContent=err.message}
- }finally{$("token").value="";submit.disabled=false;submit.textContent="Build another IPA ↗"}
-});
+const API="https://web2ipa-api.YOUR-SUBDOMAIN.workers.dev",$=id=>document.getElementById(id),form=$("buildForm"),submit=$("submit"),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function progress(p,label){$("fill").style.width=p+"%";$("percent").textContent=p+"%";$("phase").textContent=label}
+function esc(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function renderSteps(a){$("steps").innerHTML=a.map(s=>'<li class="'+(s.conclusion==="success"?"done":s.status==="in_progress"?"active":"")+'"><i class="dot"></i><span>'+esc(s.name)+(s.conclusion==="success"?" · done":s.status==="in_progress"?" · running":s.conclusion==="failure"?" · failed":"")+'</span></li>').join("")}
+async function call(path,opt={}){let r=await fetch(API+path,opt),d={};try{d=await r.json()}catch{}if(!r.ok)throw Error(d.error||"Request failed ("+r.status+")");return d}
+async function download(id){$("statusTitle").textContent="Preparing your IPA…";progress(96,"Downloading artifact");let r=await fetch(API+"/api/build/"+id+"/download");if(!r.ok){let d=await r.json();throw Error(d.error||"Artifact download failed")}let z=await JSZip.loadAsync(await r.blob()),ipa=Object.values(z.files).find(f=>!f.dir&&f.name.toLowerCase().endsWith(".ipa"));if(!ipa)throw Error("No IPA found in build artifact");let blob=await ipa.async("blob"),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="Web2IPA.ipa";a.className="download";a.textContent="Download your IPA ↓";$("result").append(a);let sum=Object.values(z.files).find(f=>!f.dir&&f.name.endsWith(".sha256"));if(sum){let p=document.createElement("p");p.className="hint";p.textContent="SHA-256: "+(await sum.async("string")).trim().split(/\s+/)[0];$("result").append(p)}$("statusTitle").textContent="Your IPA is ready";progress(100,"Ready to download")}
+async function monitor(id){for(let i=0;i<180;i++){let d=await call("/api/build/"+id),s=d.jobs[0]?.steps||[];renderSteps(s);let done=s.filter(x=>x.status==="completed").length,active=s.find(x=>x.status==="in_progress");progress(d.status==="completed"?92:Math.min(90,8+done/Math.max(s.length,1)*82+(active?3:0)),active?active.name:d.status==="queued"?"Waiting for macOS runner":d.status==="in_progress"?"Building iOS app":"Finishing build");if(d.status==="completed"){if(d.conclusion!=="success"){$("statusTitle").innerHTML='<span class="error">Build failed</span>';$("result").innerHTML='The build failed. <a target="_blank" rel="noreferrer" href="'+d.html_url+'">Open build logs ↗</a>';throw Object.assign(Error("The iOS build failed."),{handled:true})}return download(id)}await sleep(4000)}throw Error("Build is taking longer than expected. Check GitHub Actions.")}
+form.addEventListener("submit",async e=>{e.preventDefault();let website_url=$("url").value.trim(),app_name=$("app").value.trim(),bundle_id=$("bundle").value.trim(),turnstileToken=window.turnstile?.getResponse();if(!/^https:\/\//i.test(website_url))return alert("Please enter a valid HTTPS URL.");if(!app_name||app_name.length>30)return alert("App name must be 1–30 characters.");if(!/^[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$/.test(bundle_id))return alert("Enter a valid bundle identifier.");if(!turnstileToken)return alert("Complete the security check first.");submit.disabled=true;submit.textContent="Building…";$("status").classList.add("show");$("statusTitle").textContent="Starting build…";$("result").textContent="";$("steps").innerHTML="";progress(2,"Sending secure request");try{let b=await call("/api/build",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({website_url,app_name,bundle_id,turnstileToken})});$("statusTitle").textContent="Build queued";await monitor(b.run_id)}catch(err){if(!err.handled){$("statusTitle").innerHTML='<span class="error">Something went wrong</span>';$("result").textContent=err.message}}finally{window.turnstile?.reset();submit.disabled=false;submit.textContent="Build another IPA ↗"}});
 </script></body></html>
