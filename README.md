@@ -18,7 +18,7 @@ The website is the complete front end: submit the app details, watch the GitHub 
 
 ## First-time setup
 
-The `Deploy Web2IPA website` workflow deploys the static website to GitHub Pages. It runs automatically when `index.html` or the deploy workflow changes. If Pages has not been enabled for the repository, the workflow attempts to enable it.
+GitHub Pages is configured to publish the `main` branch from the repository root. Changes to `index.html` are published automatically by GitHub Pages.
 
 ## Important: unsigned means not ready to install
 
