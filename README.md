@@ -22,7 +22,7 @@ Record its App ID and Installation ID, then generate a private key. Keep the PEM
 Create a Turnstile widget for hostname `martgeluk11-dev.github.io`. Keep its site key and secret key.
 
 ### 3. Cloudflare Worker
-Create a Worker named `web2ipa-api`, deploy `worker.js`, then add these secrets in Worker Settings → Variables and Secrets:
+A Worker named `web2ipa-api` has already been deployed at https://web2ipa-api.martgeluk11.workers.dev. Its source is `worker.js`. Add these secrets in Worker Settings → Variables and Secrets:
 - `GITHUB_APP_ID`
 - `GITHUB_INSTALLATION_ID`
 - `GITHUB_PRIVATE_KEY` (full PEM contents)
@@ -32,9 +32,7 @@ Add this plain-text variable:
 - `ALLOWED_ORIGIN` = `https://martgeluk11-dev.github.io`
 
 ### 4. Connect the site
-In `index.html`, replace:
-- `https://web2ipa-api.YOUR-SUBDOMAIN.workers.dev` with your deployed Worker URL
-- `TURNSTILE_SITE_KEY` with the Turnstile site key
+In `index.html`, the Worker URL is already configured. Replace `TURNSTILE_SITE_KEY` with the Turnstile site key.
 
 Commit the change and wait for GitHub Pages to deploy.
 
