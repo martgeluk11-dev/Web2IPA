@@ -15,7 +15,7 @@
 <div id="status" class="status" role="status" aria-live="polite"><div id="statusTitle">Preparing build…</div><div class="progressWrap"><div class="progressMeta"><span id="phase">Waiting for GitHub runner</span><strong id="percent">0%</strong></div><div class="track"><div class="fill" id="fill"></div></div></div><ul class="steps" id="steps"></ul><div id="result"></div></div></section>
 <p class="foot"><strong>Important:</strong> the generated IPA is unsigned. It cannot be installed normally until signed with a valid Apple signing identity. Web2IPA wraps your website; it does not convert it into native Swift code.</p></main>
 <script>
-const API="https://web2ipa-api.YOUR-SUBDOMAIN.workers.dev",$=id=>document.getElementById(id),form=$("buildForm"),submit=$("submit"),sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const API="https://web2ipa-api.martgeluk11.workers.dev",$=id=>document.getElementById(id),form=$("buildForm"),submit=$("submit"),sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function progress(p,label){$("fill").style.width=p+"%";$("percent").textContent=p+"%";$("phase").textContent=label}
 function esc(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function renderSteps(a){$("steps").innerHTML=a.map(s=>'<li class="'+(s.conclusion==="success"?"done":s.status==="in_progress"?"active":"")+'"><i class="dot"></i><span>'+esc(s.name)+(s.conclusion==="success"?" · done":s.status==="in_progress"?" · running":s.conclusion==="failure"?" · failed":"")+'</span></li>').join("")}
